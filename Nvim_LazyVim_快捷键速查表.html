@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Neovim + LazyVim 快捷键速查表</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #00d4ff;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .note-box {
+      background: #16213e;
+      border-left: 4px solid #ffd700;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 0 5px 5px 0;
+    }
+    .note-box span {
+      color: #ffd700;
+      font-weight: bold;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    .section-title {
+      background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+      color: #fff;
+      padding: 8px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #16213e;
+      border-radius: 0 0 5px 5px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #2a3a5a;
+    }
+    th {
+      background: #1f3460;
+      color: #00d4ff;
+      font-weight: normal;
+    }
+    tr:hover {
+      background: #1f3460;
+    }
+    .key {
+      font-family: "Consolas", "Monaco", monospace;
+      background: #2a3a5a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #ffd700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .leader {
+      color: #ff6b6b;
+    }
+    .warn {
+      color: #ff6b6b;
+      font-size: 12px;
+    }
+    .sub-section {
+      background: #1f3460;
+      color: #00d4ff;
+      padding: 6px 15px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .tips {
+      background: #16213e;
+      border-left: 4px solid #7b2cbf;
+      padding: 15px;
+      border-radius: 0 5px 5px 0;
+    }
+    .tips li {
+      margin-bottom: 8px;
+      padding-left: 10px;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Neovim + LazyVim 快捷键速查表</h1>
+<p class="subtitle">适用于轩轩的配置文件</p>
+
+<div class="note-box">
+  <span>说明：</span>
+  <span class="key">&lt;leader&gt;</span> 键默认是空格键（Space）|
+  <span class="key">&lt;C-x&gt;</span> = Ctrl+x |
+  <span class="key">&lt;S-x&gt;</span> = Shift+x |
+  <span class="key">&lt;A-x&gt;</span> = Alt+x
+</div>
+
+<div class="section">
+  <div class="section-title">一、Vim 基础 - 模式切换</div>
+  <table>
+    <tr><td><span class="key">i</span></td><td>插入模式（光标前）</td>
+        <td><span class="key">I</span></td><td>插入模式（行首）</td></tr>
+    <tr><td><span class="key">a</span></td><td>插入模式（光标后）</td>
+        <td><span class="key">A</span></td><td>插入模式（行尾）</td></tr>
+    <tr><td><span class="key">o</span></td><td>下方新建行并插入</td>
+        <td><span class="key">O</span></td><td>上方新建行并插入</td></tr>
+    <tr><td><span class="key">v</span></td><td>可视模式（字符选择）</td>
+        <td><span class="key">V</span></td><td>可视模式（行选择）</td></tr>
+    <tr><td><span class="key">Ctrl+v</span></td><td>可视模式（块选择）</td>
+        <td><span class="key">Esc</span></td><td>返回普通模式</td></tr>
+    <tr><td><span class="key">:</span></td><td>进入命令模式</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">二、Vim 基础 - 光标移动</div>
+  <table>
+    <tr><td><span class="key">h/j/k/l</span></td><td>左/下/上/右</td>
+        <td><span class="key">w/W</span></td><td>下一单词开头</td></tr>
+    <tr><td><span class="key">b/B</span></td><td>上一单词开头</td>
+        <td><span class="key">e/E</span></td><td>当前单词末尾</td></tr>
+    <tr><td><span class="key">0</span></td><td>行首</td>
+        <td><span class="key">^</span></td><td>行首非空白字符</td></tr>
+    <tr><td><span class="key">$</span></td><td>行尾</td>
+        <td><span class="key">gg</span></td><td>文件开头</td></tr>
+    <tr><td><span class="key">G</span></td><td>文件末尾</td>
+        <td><span class="key">数字+G</span></td><td>跳转到指定行</td></tr>
+    <tr><td><span class="key">Ctrl+f/b</span></td><td>下/上翻一页</td>
+        <td><span class="key">Ctrl+d/u</span></td><td>下/上翻半页</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">三、Vim 基础 - 编辑操作</div>
+  <table>
+    <tr><td><span class="key">x</span></td><td>删除光标字符</td>
+        <td><span class="key">X</span></td><td>删除光标前字符</td></tr>
+    <tr><td><span class="key">dd</span></td><td>删除整行（剪切）</td>
+        <td><span class="key">D</span></td><td>删除到行尾</td></tr>
+    <tr><td><span class="key">dw</span></td><td>删除一个单词</td>
+        <td><span class="key">yy</span></td><td>复制整行</td></tr>
+    <tr><td><span class="key">yw</span></td><td>复制一个单词</td>
+        <td><span class="key">p/P</span></td><td>粘贴到光标后/前</td></tr>
+    <tr><td><span class="key">r</span></td><td>替换当前字符</td>
+        <td><span class="key">R</span></td><td>进入替换模式</td></tr>
+    <tr><td><span class="key">cc</span></td><td>修改整行</td>
+        <td><span class="key">cw</span></td><td>修改一个单词</td></tr>
+    <tr><td><span class="key">u</span></td><td>撤销</td>
+        <td><span class="key">Ctrl+r</span></td><td>重做</td></tr>
+    <tr><td><span class="key">.</span></td><td>重复上一个操作</td>
+        <td><span class="key">J</span></td><td>合并当前行和下一行</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">四、Vim 基础 - 搜索与替换</div>
+  <table>
+    <tr><td><span class="key">/</span></td><td>向下搜索</td>
+        <td><span class="key">?</span></td><td>向上搜索</td></tr>
+    <tr><td><span class="key">n</span></td><td>下一个匹配</td>
+        <td><span class="key">N</span></td><td>上一个匹配</td></tr>
+    <tr><td><span class="key">*</span></td><td>搜光标下单词（下）</td>
+        <td><span class="key">#</span></td><td>搜光标下单词（上）</td></tr>
+    <tr><td><span class="key">:s/old/new</span></td><td>替换当前行第一个</td>
+        <td><span class="key">:s/old/new/g</span></td><td>替换当前行所有</td></tr>
+    <tr><td><span class="key">:%s/old/new/g</span></td><td>替换整个文件所有</td>
+        <td><span class="key">:%s/old/new/gc</span></td><td>替换（逐个确认）</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">五、Vim 基础 - 窗口与标签页</div>
+  <table>
+    <tr><td><span class="key">:sp</span></td><td>水平分割窗口</td>
+        <td><span class="key">:vsp</span></td><td>垂直分割窗口</td></tr>
+    <tr><td><span class="key">Ctrl+w h/j/k/l</span></td><td>切换窗口</td>
+        <td><span class="key">Ctrl+w q</span></td><td>关闭当前窗口</td></tr>
+    <tr><td><span class="key">Ctrl+w o</span></td><td>关闭其他窗口</td>
+        <td><span class="key">Ctrl+w =</span></td><td>窗口等宽等高</td></tr>
+    <tr><td><span class="key">:tabnew</span></td><td>新建标签页</td>
+        <td><span class="key">:tabc</span></td><td>关闭标签页</td></tr>
+    <tr><td><span class="key">gt</span></td><td>下一个标签页</td>
+        <td><span class="key">gT</span></td><td>上一个标签页</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">六、Vim 基础 - 文件操作</div>
+  <table>
+    <tr><td><span class="key">:w</span></td><td>保存文件</td>
+        <td><span class="key">:w 文件名</span></td><td>另存为</td></tr>
+    <tr><td><span class="key">:q</span></td><td>退出</td>
+        <td><span class="key">:q!</span></td><td>强制退出（不保存）</td></tr>
+    <tr><td><span class="key">:wq / :x / ZZ</span></td><td>保存并退出</td>
+        <td><span class="key">ZQ</span></td><td>强制退出</td></tr>
+    <tr><td><span class="key">:e 文件名</span></td><td>打开文件</td>
+        <td><span class="key">:e!</span></td><td>放弃修改重新加载</td></tr>
+    <tr><td><span class="key">&gt;&gt;</span></td><td>增加缩进</td>
+        <td><span class="key">&lt;&lt;</span></td><td>减少缩进</td></tr>
+    <tr><td><span class="key">==</span></td><td>自动缩进当前行</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">七、LazyVim - 通用快捷键</div>
+  <table>
+    <tr><td><span class="key">j/k</span></td><td>下/上移动</td>
+        <td><span class="key">Shift+h/l</span></td><td>上/下一个缓冲区</td></tr>
+    <tr><td><span class="key">[b / ]b</span></td><td>上/下一个缓冲区</td>
+        <td><span class="key">Ctrl+h/j/k/l</span></td><td>切换窗口</td></tr>
+    <tr><td><span class="key">Ctrl+↑/↓</span></td><td>增加/减少窗口高度</td>
+        <td><span class="key">Ctrl+←/→</span></td><td>减少/增加窗口宽度</td></tr>
+    <tr><td><span class="key">Alt+j/k</span></td><td>下/上移动当前行</td>
+        <td><span class="key">Ctrl+s</span></td><td>保存文件</td></tr>
+    <tr><td><span class="key">Esc</span></td><td>清除搜索高亮</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">八、LazyVim - Leader 快捷键（空格键开头）</div>
+  
+  <div class="sub-section">文件操作（f 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>ff</span></td><td>查找文件（项目根目录）</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>fF</span></td><td>查找文件（当前目录）</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>fg</span></td><td>查找 git 文件</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>fr</span></td><td>最近打开的文件</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>fb</span></td><td>查找缓冲区</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>fc</span></td><td>查找配置文件</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>fn</span></td><td>新建文件</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>ft</span></td><td>打开终端</td></tr>
+  </table>
+  
+  <div class="sub-section">文件浏览器</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>e</span></td><td>打开文件浏览器（项目根目录）</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>E</span></td><td>打开文件浏览器（当前目录）</td></tr>
+  </table>
+  
+  <div class="sub-section">搜索（s 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>/</span></td><td>全局搜索（grep）</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>sg</span></td><td>全局搜索（项目）</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>sw</span></td><td>搜索光标下单词</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>sb</span></td><td>当前缓冲区搜索</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>sh</span></td><td>搜索帮助文档</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>sk</span></td><td>搜索快捷键</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>ss</span></td><td>搜索 LSP 符号</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>su</span></td><td>打开撤销树</td></tr>
+  </table>
+  
+  <div class="sub-section">缓冲区（b 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>bb</span></td><td>切换缓冲区</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>bd</span></td><td>删除当前缓冲区</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>bo</span></td><td>删除其他缓冲区</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>bp</span></td><td>固定缓冲区</td></tr>
+  </table>
+  
+  <div class="sub-section">窗口（w 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>-</span></td><td>水平分割窗口</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>|</span></td><td>垂直分割窗口</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>wd</span></td><td>关闭当前窗口</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>wm</span></td><td>切换窗口最大化</td></tr>
+  </table>
+  
+  <div class="sub-section">标签页（tab 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>&lt;tab&gt;&lt;tab&gt;</span></td><td>新建标签页</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>&lt;tab&gt;d</span></td><td>关闭标签页</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>&lt;tab&gt;]</span></td><td>下一个标签页</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>&lt;tab&gt;[</span></td><td>上一个标签页</td></tr>
+  </table>
+  
+  <div class="sub-section">代码（c 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>cf</span></td><td>格式化代码</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>cd</span></td><td>显示行诊断信息</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>ca</span></td><td>代码操作</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>cr</span></td><td>重命名</td></tr>
+  </table>
+  
+  <div class="sub-section">Git（g 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>gg</span></td><td>打开 Git UI</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>gb</span></td><td>Git Blame 当前行</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>gf</span></td><td>Git 文件历史</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>gs</span></td><td>Git 状态</td></tr>
+  </table>
+  
+  <div class="sub-section">切换设置（u 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>uf</span></td><td>切换自动格式化</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>us</span></td><td>切换拼写检查</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>uw</span></td><td>切换自动换行</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>ud</span></td><td>切换诊断</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>uz</span></td><td>切换禅模式</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>uC</span></td><td>切换配色方案</td></tr>
+  </table>
+  
+  <div class="sub-section">诊断/错误（x 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>xx</span></td><td>诊断列表</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>xX</span></td><td>当前缓冲区诊断</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>xt</span></td><td>TODO 列表</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>xq</span></td><td>快速修复列表</td></tr>
+  </table>
+  
+  <div class="sub-section">退出/会话（q 开头）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>qq</span></td><td>退出所有</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>qs</span></td><td>恢复会话</td></tr>
+  </table>
+  
+  <div class="sub-section">其他</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>,</span></td><td>缓冲区列表</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>l</span></td><td>打开 Lazy 插件管理</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>?</span></td><td>快捷键列表</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>n</span></td><td>通知历史</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">九、LSP 相关快捷键</div>
+  <table>
+    <tr><td><span class="key">gd</span></td><td>跳转到定义</td>
+        <td><span class="key">gD</span></td><td>跳转到声明</td></tr>
+    <tr><td><span class="key">gr</span></td><td>查找引用</td>
+        <td><span class="key">gI</span></td><td>跳转到实现</td></tr>
+    <tr><td><span class="key">gy</span></td><td>跳转到类型定义</td>
+        <td><span class="key">K</span></td><td>显示悬浮文档</td></tr>
+    <tr><td><span class="key">gK</span></td><td>显示签名帮助</td>
+        <td><span class="key">Ctrl+k</span></td><td>签名帮助（插入模式）</td></tr>
+    <tr><td><span class="key">]]</span></td><td>下一个引用</td>
+        <td><span class="key">[[</span></td><td>上一个引用</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十、诊断跳转</div>
+  <table>
+    <tr><td><span class="key">]d / [d</span></td><td>下/上一个诊断</td>
+        <td><span class="key">]e / [e</span></td><td>下/上一个错误</td></tr>
+    <tr><td><span class="key">]w / [w</span></td><td>下/上一个警告</td>
+        <td><span class="key">]t / [t</span></td><td>下/上一个 TODO</td></tr>
+    <tr><td><span class="key">]q / [q</span></td><td>下/上一个快速修复项</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十一、注释</div>
+  <table>
+    <tr><td><span class="key">gcc</span></td><td>注释/取消注释当前行</td>
+        <td><span class="key">gc</span></td><td>注释选中内容（可视模式）</td></tr>
+    <tr><td><span class="key">gbc</span></td><td>块注释当前行</td>
+        <td><span class="key">gb</span></td><td>块注释选中内容</td></tr>
+    <tr><td><span class="key">gco</span></td><td>在下方添加注释行</td>
+        <td><span class="key">gcO</span></td><td>在上方添加注释行</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十二、Flash 跳转</div>
+  <table>
+    <tr><td><span class="key">s</span></td><td>Flash 跳转</td>
+        <td><span class="key">S</span></td><td>Flash Treesitter 跳转</td></tr>
+    <tr><td><span class="key">r</span></td><td>远程 Flash（操作符模式）</td>
+        <td><span class="key">R</span></td><td>Treesitter 搜索</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十三、包围操作（mini-surround）</div>
+  <table>
+    <tr><td><span class="key">gsa</span></td><td>添加包围</td>
+        <td><span class="key">gsd</span></td><td>删除包围</td></tr>
+    <tr><td><span class="key">gsr</span></td><td>替换包围</td>
+        <td><span class="key">gsh</span></td><td>高亮包围</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十四、文件浏览器（neo-tree）</div>
+  <table>
+    <tr><td><span class="key">Enter</span></td><td>打开文件/进入目录</td>
+        <td><span class="key">s / S</span></td><td>垂直/水平分割打开</td></tr>
+    <tr><td><span class="key">a</span></td><td>新建文件/目录</td>
+        <td><span class="key">d</span></td><td>删除</td></tr>
+    <tr><td><span class="key">r</span></td><td>重命名</td>
+        <td><span class="key">y / Y</span></td><td>复制文件名/相对路径</td></tr>
+    <tr><td><span class="key">x</span></td><td>剪切</td>
+        <td><span class="key">p</span></td><td>粘贴</td></tr>
+    <tr><td><span class="key">c</span></td><td>复制文件</td>
+        <td><span class="key">m</span></td><td>移动文件</td></tr>
+    <tr><td><span class="key">. / H</span></td><td>切换显示隐藏文件</td>
+        <td><span class="key">I</span></td><td>切换显示 gitignore 文件</td></tr>
+    <tr><td><span class="key">R</span></td><td>刷新</td>
+        <td><span class="key">? / q</span></td><td>帮助/关闭</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十五、终端</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>ft</span></td><td>打开终端（项目根目录）</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>fT</span></td><td>打开终端（当前目录）</td></tr>
+    <tr><td><span class="key">Ctrl+/</span></td><td>打开/关闭终端</td>
+        <td><span class="key">Esc Esc</span></td><td>退出终端模式</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十六、调试（DAP）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>db</span></td><td>切换断点</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>dB</span></td><td>条件断点</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>dc</span></td><td>运行/继续</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>di</span></td><td>单步进入</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>do</span></td><td>单步跳出</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>dO</span></td><td>单步跳过</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>dt</span></td><td>终止</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>du</span></td><td>DAP UI</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十七、测试（Neotest）</div>
+  <table>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>tt</span></td><td>运行当前文件测试</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>tT</span></td><td>运行所有测试文件</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>tr</span></td><td>运行最近的测试</td>
+        <td><span class="key"><span class="leader">&lt;leader&gt;</span>ts</span></td><td>切换测试摘要</td></tr>
+    <tr><td><span class="key"><span class="leader">&lt;leader&gt;</span>td</span></td><td>调试最近的测试</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十八、常用命令</div>
+  <table>
+    <tr><td><span class="key">:w / :q / :wq</span></td><td>保存 / 退出 / 保存退出</td>
+        <td><span class="key">:bd</span></td><td>关闭当前缓冲区</td></tr>
+    <tr><td><span class="key">:sp / :vsp</span></td><td>水平 / 垂直分割</td>
+        <td><span class="key">:tabnew / :tabc</span></td><td>新建 / 关闭标签页</td></tr>
+    <tr><td><span class="key">:Lazy</span></td><td>打开 Lazy 插件管理</td>
+        <td><span class="key">:Mason</span></td><td>打开 Mason LSP 管理器</td></tr>
+    <tr><td><span class="key">:LspInfo</span></td><td>查看 LSP 状态</td>
+        <td><span class="key">:checkhealth</span></td><td>健康检查</td></tr>
+    <tr><td><span class="key">:set nu / nonu</span></td><td>显示 / 隐藏行号</td>
+        <td><span class="key">:set spell / nospell</span></td><td>启用 / 禁用拼写检查</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">常用速记</div>
+  <table>
+    <tr><td><span class="key">Space+ff</span></td><td>查找文件</td>
+        <td><span class="key">Space+/</span></td><td>全局搜索</td></tr>
+    <tr><td><span class="key">Space+e</span></td><td>文件浏览器</td>
+        <td><span class="key">Space+gg</span></td><td>Git UI</td></tr>
+    <tr><td><span class="key">gd</span></td><td>跳转定义</td>
+        <td><span class="key">K</span></td><td>查看文档</td></tr>
+    <tr><td><span class="key">Space+ca</span></td><td>代码操作</td>
+        <td><span class="key">Space+cr</span></td><td>重命名</td></tr>
+    <tr><td><span class="key">gcc</span></td><td>注释当前行</td>
+        <td><span class="key">Space+qq</span></td><td>退出所有</td></tr>
+    <tr><td><span class="key">Ctrl+s</span></td><td>保存</td>
+        <td><span class="key">Shift+h/l</span></td><td>切换缓冲区</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">小贴士</div>
+  <ul class="tips">
+    <li>按 <span class="key">Space</span> 键后等待 1 秒，会自动弹出快捷键提示面板</li>
+    <li>按 <span class="key">Space+sk</span> 可以搜索所有快捷键</li>
+    <li>在文件浏览器中按 <span class="key">.</span> 可以切换显示隐藏文件</li>
+    <li>按 <span class="key">Ctrl+s</span> 可以随时保存文件（任意模式）</li>
+    <li>按 <span class="key">K</span> 可以查看光标下的函数/变量文档</li>
+    <li>使用 <span class="key">:Lazy</span> 可以管理插件，更新、安装、清理</li>
+    <li>使用 <span class="key">:Mason</span> 可以管理 LSP 服务器、格式化工具等</li>
+    <li>使用 <span class="key">gd</span> 快速跳转到函数定义</li>
+  </ul>
+</div>
+
+</body>
+</html>

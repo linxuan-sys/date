@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Yazi 快捷键速查表</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #00d4ff;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    .section-title {
+      background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+      color: #fff;
+      padding: 8px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #16213e;
+      border-radius: 0 0 5px 5px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #2a3a5a;
+    }
+    th {
+      background: #1f3460;
+      color: #00d4ff;
+      font-weight: normal;
+    }
+    tr:hover {
+      background: #1f3460;
+    }
+    .key {
+      font-family: "Consolas", "Monaco", monospace;
+      background: #2a3a5a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #ffd700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .note {
+      color: #ff6b6b;
+      font-size: 12px;
+    }
+    .two-col td {
+      width: 25%;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Yazi 文件管理器 - 快捷键速查表</h1>
+<p class="subtitle">适用于轩轩的配置文件</p>
+
+<div class="section">
+  <div class="section-title">一、基本操作</div>
+  <table>
+    <tr><td><span class="key">q</span></td><td>退出程序</td>
+        <td><span class="key">Q</span></td><td>退出且不输出 cwd</td></tr>
+    <tr><td><span class="key">Esc</span></td><td>退出模式/取消</td>
+        <td><span class="key">Ctrl+c</span></td><td>关闭标签页</td></tr>
+    <tr><td><span class="key">Ctrl+z</span></td><td>挂起程序</td>
+        <td><span class="key">~ / F1</span></td><td>打开帮助</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">二、光标移动</div>
+  <table>
+    <tr><td><span class="key">k / ↑</span></td><td>上一个文件</td>
+        <td><span class="key">j / ↓</span></td><td>下一个文件</td></tr>
+    <tr><td><span class="key">Ctrl+u</span></td><td>上翻半页</td>
+        <td><span class="key">Ctrl+d</span></td><td>下翻半页</td></tr>
+    <tr><td><span class="key">Ctrl+b</span></td><td>上翻一页</td>
+        <td><span class="key">Ctrl+f</span></td><td>下翻一页</td></tr>
+    <tr><td><span class="key">g g</span></td><td>跳到顶部</td>
+        <td><span class="key">g t</span></td><td>跳到底部</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">三、目录导航</div>
+  <table>
+    <tr><td><span class="key">h / ←</span></td><td>返回上级目录</td>
+        <td><span class="key">l / →</span></td><td>进入子目录</td></tr>
+    <tr><td><span class="key">Shift+←</span></td><td>历史后退</td>
+        <td><span class="key">Shift+→</span></td><td>历史前进</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">四、目录跳转（先按 g）</div>
+  <table>
+    <tr><td><span class="key">h</span></td><td>主目录 ~/</td>
+        <td><span class="key">d</span></td><td>下载目录</td></tr>
+    <tr><td><span class="key">p</span></td><td>图片目录</td>
+        <td><span class="key">v</span></td><td>视频目录</td></tr>
+    <tr><td><span class="key">m</span></td><td>音乐目录</td>
+        <td><span class="key">w</span></td><td>文档目录</td></tr>
+    <tr><td><span class="key">u</span></td><td>公共目录</td>
+        <td><span class="key">t</span></td><td>模板目录</td></tr>
+    <tr><td><span class="key">Space</span></td><td>交互式输入路径</td>
+        <td><span class="key">f</span></td><td>跟随符号链接</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">五、文件操作</div>
+  <table>
+    <tr><td><span class="key">Enter</span></td><td>打开文件</td>
+        <td><span class="key">o o</span></td><td>打开文件</td></tr>
+    <tr><td><span class="key">O</span></td><td>交互式打开（选择程序）</td>
+        <td><span class="key">o c</span></td><td>用自定义命令打开</td></tr>
+    <tr><td><span class="key">y</span></td><td>复制文件</td>
+        <td><span class="key">x</span></td><td>剪切文件</td></tr>
+    <tr><td><span class="key">p p</span></td><td>粘贴</td>
+        <td><span class="key">p f</span></td><td>强制粘贴（覆盖）</td></tr>
+    <tr><td><span class="key">-</span></td><td>创建符号链接（绝对路径）</td>
+        <td><span class="key">_</span></td><td>创建符号链接（相对路径）</td></tr>
+    <tr><td><span class="key">Y / X</span></td><td>取消复制/剪切</td>
+        <td><span class="key">d</span></td><td>移到回收站</td></tr>
+    <tr><td><span class="key">D</span></td><td>永久删除 <span class="note">⚠️</span></td>
+        <td><span class="key">a</span></td><td>创建文件/目录</td></tr>
+    <tr><td><span class="key">;</span></td><td>后台运行命令</td>
+        <td><span class="key">:</span></td><td>阻塞运行命令</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">六、文件重命名（先按 r）</div>
+  <table>
+    <tr><td><span class="key">r</span></td><td>光标在扩展名前</td>
+        <td><span class="key">f</span></td><td>清空整个文件名</td></tr>
+    <tr><td><span class="key">i</span></td><td>光标在开头</td>
+        <td><span class="key">a</span></td><td>光标在末尾</td></tr>
+    <tr><td><span class="key">c</span></td><td>清空整个文件名</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">七、复制路径（先按 c）</div>
+  <table>
+    <tr><td><span class="key">c</span></td><td>复制完整路径</td>
+        <td><span class="key">d</span></td><td>复制目录路径</td></tr>
+    <tr><td><span class="key">f</span></td><td>复制文件名（含扩展名）</td>
+        <td><span class="key">n</span></td><td>复制文件名（不含扩展名）</td></tr>
+    <tr><td><span class="key">m</span></td><td>重命名（保留扩展名）</td>
+        <td><span class="key">r</span></td><td>创建文件/目录</td></tr>
+    <tr><td><span class="key">z</span></td><td>压缩文件</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">八、选择操作</div>
+  <table>
+    <tr><td><span class="key">Space</span></td><td>切换选择</td>
+        <td><span class="key">Ctrl+a</span></td><td>全选</td></tr>
+    <tr><td><span class="key">Ctrl+r</span></td><td>反选</td>
+        <td><span class="key">v</span></td><td>视觉模式（选择）</td></tr>
+    <tr><td><span class="key">V</span></td><td>视觉模式（取消选择）</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">九、搜索查找</div>
+  <table>
+    <tr><td><span class="key">f</span></td><td>智能过滤</td>
+        <td><span class="key">/</span></td><td>查找下一个</td></tr>
+    <tr><td><span class="key">?</span></td><td>查找上一个</td>
+        <td><span class="key">n</span></td><td>下一个匹配</td></tr>
+    <tr><td><span class="key">N</span></td><td>上一个匹配</td>
+        <td><span class="key">s</span></td><td>fd 搜索文件名</td></tr>
+    <tr><td><span class="key">S</span></td><td>ripgrep 搜索内容</td>
+        <td><span class="key">Ctrl+s</span></td><td>取消搜索</td></tr>
+    <tr><td><span class="key">z</span></td><td>fzf 模糊跳转</td>
+        <td><span class="key">Z</span></td><td>zoxide 智能跳转</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十、显示设置（先按 m）</div>
+  <table>
+    <tr><td><span class="key">.</span></td><td>切换隐藏文件显示</td>
+        <td></td><td></td></tr>
+    <tr><td><span class="key">s</span></td><td>显示文件大小</td>
+        <td><span class="key">p</span></td><td>显示权限</td></tr>
+    <tr><td><span class="key">b</span></td><td>显示创建时间</td>
+        <td><span class="key">m</span></td><td>显示修改时间</td></tr>
+    <tr><td><span class="key">o</span></td><td>显示所有者</td>
+        <td><span class="key">n</span></td><td>无额外信息</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十一、排序（先按 ,）</div>
+  <table>
+    <tr><td><span class="key">m/M</span></td><td>修改时间（正/倒序）</td>
+        <td><span class="key">b/B</span></td><td>创建时间（正/倒序）</td></tr>
+    <tr><td><span class="key">e/E</span></td><td>扩展名（正/倒序）</td>
+        <td><span class="key">a/A</span></td><td>字母顺序（正/倒序）</td></tr>
+    <tr><td><span class="key">n/N</span></td><td>自然排序（正/倒序）</td>
+        <td><span class="key">s/S</span></td><td>文件大小（正/倒序）</td></tr>
+    <tr><td><span class="key">r</span></td><td>随机排序</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十二、标签页管理</div>
+  <table>
+    <tr><td><span class="key">t</span></td><td>新建标签页</td>
+        <td><span class="key">1-9</span></td><td>切换到第N个标签页</td></tr>
+    <tr><td><span class="key">-</span></td><td>上一个标签页</td>
+        <td><span class="key">=</span></td><td>下一个标签页</td></tr>
+    <tr><td><span class="key">_</span></td><td>与上一个交换</td>
+        <td><span class="key">+</span></td><td>与下一个交换</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十三、预览控制</div>
+  <table>
+    <tr><td><span class="key">Ctrl+↑</span></td><td>预览向上滚动</td>
+        <td><span class="key">Ctrl+↓</span></td><td>预览向下滚动</td></tr>
+    <tr><td><span class="key">Tab</span></td><td>聚焦模式（查看详情）</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十四、回收站</div>
+  <table>
+    <tr><td><span class="key">R b</span></td><td>打开回收站管理</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十五、挂载设备（先按 M）</div>
+  <table>
+    <tr><td><span class="key">m</span></td><td>选择设备挂载并跳转</td>
+        <td><span class="key">R</span></td><td>重新挂载当前设备</td></tr>
+    <tr><td><span class="key">u/U</span></td><td>卸载并弹出（U强制）</td>
+        <td><span class="key">a</span></td><td>添加挂载 URI</td></tr>
+    <tr><td><span class="key">e</span></td><td>编辑挂载 URI</td>
+        <td><span class="key">r</span></td><td>移除挂载 URI</td></tr>
+    <tr><td><span class="key">p</span></td><td>通用挂载插件</td>
+        <td></td><td></td></tr>
+    <tr><td><span class="key">G m</span></td><td>跳转到设备挂载点（自动）</td>
+        <td><span class="key">` `</span></td><td>跳回上一个目录</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十六、书签管理 Whoosh（先按 ]）</div>
+  <table>
+    <tr><td><span class="key">[</span></td><td>按键跳转书签</td>
+        <td><span class="key">}</span></td><td>模糊搜索书签</td></tr>
+    <tr><td><span class="key">a/A</span></td><td>添加书签（A仅当前目录）</td>
+        <td><span class="key">t/T</span></td><td>添加临时书签</td></tr>
+    <tr><td><span class="key">f</span></td><td>模糊搜索跳转</td>
+        <td><span class="key">d</span></td><td>按键删除书签</td></tr>
+    <tr><td><span class="key">D</span></td><td>模糊搜索删除（可多选）</td>
+        <td><span class="key">C</span></td><td>删除所有书签 <span class="note">⚠️</span></td></tr>
+    <tr><td><span class="key">r/R</span></td><td>重命名书签</td>
+        <td><span class="key">Alt+k</span></td><td>直接跳转到书签 'k'</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十七、任务管理器（按 w 打开）</div>
+  <table>
+    <tr><td><span class="key">Esc / w</span></td><td>关闭</td>
+        <td><span class="key">j / k</span></td><td>上/下一个任务</td></tr>
+    <tr><td><span class="key">Enter</span></td><td>查看详情</td>
+        <td><span class="key">x</span></td><td>取消任务</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十八、聚焦模式（按 Tab 进入）</div>
+  <table>
+    <tr><td><span class="key">Esc / Tab</span></td><td>退出</td>
+        <td><span class="key">j / k</span></td><td>上/下一行</td></tr>
+    <tr><td><span class="key">h / l</span></td><td>上/下一个文件</td>
+        <td><span class="key">c c</span></td><td>复制单元格</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">十九、选择器模式</div>
+  <table>
+    <tr><td><span class="key">Esc</span></td><td>取消</td>
+        <td><span class="key">Enter</span></td><td>确认</td></tr>
+    <tr><td><span class="key">j / k</span></td><td>上/下一个选项</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">二十、输入模式</div>
+  <table>
+    <tr><td><span class="key">Enter</span></td><td>提交输入</td>
+        <td><span class="key">Esc / Ctrl+c</span></td><td>取消</td></tr>
+    <tr><td><span class="key">h/l/←/→</span></td><td>左/右移一字符</td>
+        <td><span class="key">b / w</span></td><td>上/下一个单词</td></tr>
+    <tr><td><span class="key">0 / Home</span></td><td>移到行首</td>
+        <td><span class="key">$ / End</span></td><td>移到行尾</td></tr>
+    <tr><td><span class="key">Backspace</span></td><td>删除前一字符</td>
+        <td><span class="key">Delete</span></td><td>删除当前字符</td></tr>
+    <tr><td><span class="key">Ctrl+u</span></td><td>删除到行首</td>
+        <td><span class="key">Ctrl+k</span></td><td>删除到行尾</td></tr>
+    <tr><td><span class="key">Ctrl+w</span></td><td>删除前一单词</td>
+        <td><span class="key">Ctrl+d</span></td><td>删除当前字符</td></tr>
+    <tr><td><span class="key">u</span></td><td>撤销</td>
+        <td><span class="key">Ctrl+r</span></td><td>重做</td></tr>
+    <tr><td><span class="key">d</span></td><td>剪切选中</td>
+        <td><span class="key">D</span></td><td>剪切到行尾</td></tr>
+    <tr><td><span class="key">y</span></td><td>复制选中</td>
+        <td><span class="key">p</span></td><td>粘贴到光标后</td></tr>
+    <tr><td><span class="key">P</span></td><td>粘贴到光标前</td>
+        <td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">二十一、确认对话框</div>
+  <table>
+    <tr><td><span class="key">y / Enter</span></td><td>确认</td>
+        <td><span class="key">n / Esc</span></td><td>取消</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">二十二、补全模式</div>
+  <table>
+    <tr><td><span class="key">Tab</span></td><td>选择补全</td>
+        <td><span class="key">Enter</span></td><td>选择并确认</td></tr>
+    <tr><td><span class="key">↑/↓/Alt+j/k</span></td><td>切换补全项</td>
+        <td><span class="key">Ctrl+c</span></td><td>取消</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">常用速记</div>
+  <table>
+    <tr><td><span class="key">j/k</span></td><td>上下移动</td>
+        <td><span class="key">h/l</span></td><td>进出目录</td></tr>
+    <tr><td><span class="key">y/x/p p</span></td><td>复制/剪切/粘贴</td>
+        <td><span class="key">d</span></td><td>删除到回收站</td></tr>
+    <tr><td><span class="key">a</span></td><td>新建文件</td>
+        <td><span class="key">r r</span></td><td>重命名</td></tr>
+    <tr><td><span class="key">/</span></td><td>搜索</td>
+        <td><span class="key">q</span></td><td>退出</td></tr>
+    <tr><td><span class="key">g h</span></td><td>回主目录</td>
+        <td><span class="key">g d</span></td><td>去下载</td></tr>
+    <tr><td><span class="key">] a</span></td><td>添加书签</td>
+        <td><span class="key">[</span></td><td>跳转书签</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

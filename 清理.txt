@@ -1,0 +1,21 @@
+# ==================== 包管理器清理 ====================
+# 删除不再需要的孤立依赖包
+sudo dnf autoremove
+
+# 清理 DNF 缓存（已下载的软件包和元数据）
+sudo dnf clean all
+
+# ==================== 临时文件清理 ====================
+# 清理当前用户的缓存目录
+rm -rf ~/.cache/*
+
+# 清理系统临时目录（谨慎操作）
+sudo rm -rf /tmp/*
+sudo rm -rf /var/tmp/*
+
+# ==================== 系统日志清理 ====================
+# 将 journal 日志总大小限制为 200MB
+sudo journalctl --vacuum-size=200M
+
+# 或者只保留最近 3 天的日志
+sudo journalctl --vacuum-time=3d

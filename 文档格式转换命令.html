@@ -1,0 +1,202 @@
+<h1 id="文档格式转换命令速查表">文档格式转换命令速查表</h1>
+<blockquote>
+<p>使用 pandoc 进行格式转换，OnlyOffice 用于 PDF 相关操作</p>
+</blockquote>
+<hr />
+<h2 id="一markdown-转换">一、Markdown 转换</h2>
+<h3 id="md-word">MD → Word</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.docx</span></code></pre></div>
+<h3 id="md-html">MD → HTML</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.html</span></code></pre></div>
+<h3 id="md-pdf">MD → PDF</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 方法一：先转 HTML，再在浏览器中打开 HTML，按 Ctrl+P 打印为 PDF</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.html</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 方法二：先转 Word，再用 OnlyOffice 导出 PDF</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.docx</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 然后用 OnlyOffice 打开 Word，文件 → 另存为 → PDF</span></span></code></pre></div>
+<h3 id="md-纯文本">MD → 纯文本</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.txt</span></code></pre></div>
+<h3 id="md-rtf">MD → RTF</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.rtf</span></code></pre></div>
+<h3 id="md-epub-电子书">MD → EPUB 电子书</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.epub</span></code></pre></div>
+<h3 id="md-odtlibreoffice-格式">MD → ODT（LibreOffice 格式）</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.odt</span></code></pre></div>
+<hr />
+<h2 id="二word-转换">二、Word 转换</h2>
+<h3 id="word-md">Word → MD</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.docx <span class="at">-o</span> 文件.md</span></code></pre></div>
+<h3 id="word-html">Word → HTML</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.docx <span class="at">-o</span> 文件.html</span></code></pre></div>
+<h3 id="word-pdf">Word → PDF</h3>
+<pre><code>使用 OnlyOffice：
+1. 打开 OnlyOffice
+2. 文件 → 打开 → 选择 Word 文件
+3. 文件 → 另存为 → 选择 PDF 格式
+4. 保存</code></pre>
+<h3 id="word-epub">Word → EPUB</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.docx <span class="at">-o</span> 文件.epub</span></code></pre></div>
+<h3 id="word-odt">Word → ODT</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.docx <span class="at">-o</span> 文件.odt</span></code></pre></div>
+<hr />
+<h2 id="三html-转换">三、HTML 转换</h2>
+<h3 id="html-md">HTML → MD</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.html <span class="at">-o</span> 文件.md</span></code></pre></div>
+<h3 id="html-word">HTML → Word</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.html <span class="at">-o</span> 文件.docx</span></code></pre></div>
+<h3 id="html-pdf">HTML → PDF</h3>
+<pre><code>在浏览器中打开 HTML 文件：
+1. 用 Chrome 或 Firefox 打开 HTML 文件
+2. 按 Ctrl+P 打印
+3. 目标打印机选择&quot;另存为 PDF&quot;
+4. 保存</code></pre>
+<h3 id="html-epub">HTML → EPUB</h3>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.html <span class="at">-o</span> 文件.epub</span></code></pre></div>
+<hr />
+<h2 id="四pdf-转换">四、PDF 转换</h2>
+<h3 id="pdf-word">PDF → Word</h3>
+<pre><code>使用 OnlyOffice：
+1. 打开 OnlyOffice
+2. 文件 → 打开 → 选择 PDF 文件
+3. OnlyOffice 会自动将 PDF 转换为可编辑文档
+4. 文件 → 另存为 → 选择 DOCX 格式
+5. 保存</code></pre>
+<h3 id="pdf-md">PDF → MD</h3>
+<pre><code>pandoc 不支持直接转换，需分两步：
+1. 用 OnlyOffice 将 PDF 转为 Word
+2. 再用 pandoc 将 Word 转为 MD
+   pandoc 文件.docx -o 文件.md</code></pre>
+<h3 id="pdf-html">PDF → HTML</h3>
+<pre><code>pandoc 不支持直接转换，需分两步：
+1. 用 OnlyOffice 将 PDF 转为 Word
+2. 再用 pandoc 将 Word 转为 HTML
+   pandoc 文件.docx -o 文件.html</code></pre>
+<hr />
+<h2 id="五其他格式">五、其他格式</h2>
+<h3 id="epub-转换">EPUB 转换</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EPUB → MD</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.epub <span class="at">-o</span> 文件.md</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># EPUB → Word</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.epub <span class="at">-o</span> 文件.docx</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># EPUB → HTML</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.epub <span class="at">-o</span> 文件.html</span></code></pre></div>
+<h3 id="odt-转换">ODT 转换</h3>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ODT → MD</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.odt <span class="at">-o</span> 文件.md</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ODT → Word</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.odt <span class="at">-o</span> 文件.docx</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ODT → HTML</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.odt <span class="at">-o</span> 文件.html</span></code></pre></div>
+<hr />
+<h2 id="六常用参数">六、常用参数</h2>
+<h3 id="添加页边距">添加页边距</h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.docx <span class="at">-V</span> geometry:margin=1in</span></code></pre></div>
+<h3 id="指定编码">指定编码</h3>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件.md <span class="at">-o</span> 文件.html <span class="at">--metadata</span> title=<span class="st">&quot;标题&quot;</span></span></code></pre></div>
+<h3 id="从-url-转换">从 URL 转换</h3>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> https://example.com <span class="at">-o</span> 文件.html</span></code></pre></div>
+<h3 id="合并多个文件">合并多个文件</h3>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> 文件1.md 文件2.md <span class="at">-o</span> 合并.docx</span></code></pre></div>
+<hr />
+<h2 id="七查看支持的格式">七、查看支持的格式</h2>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看支持的输入格式</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">--list-input-formats</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 查看支持的输出格式</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">--list-output-formats</span></span></code></pre></div>
+<hr />
+<h2 id="八快捷方式总结">八、快捷方式总结</h2>
+<table>
+<thead>
+<tr>
+<th>源格式</th>
+<th>目标格式</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MD</td>
+<td>Word</td>
+<td>pandoc 文件.md -o 文件.docx</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>HTML</td>
+<td>pandoc 文件.md -o 文件.html</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>PDF</td>
+<td>先转 HTML/Word，再用浏览器/OnlyOffice</td>
+</tr>
+<tr>
+<td>Word</td>
+<td>MD</td>
+<td>pandoc 文件.docx -o 文件.md</td>
+</tr>
+<tr>
+<td>Word</td>
+<td>HTML</td>
+<td>pandoc 文件.docx -o 文件.html</td>
+</tr>
+<tr>
+<td>Word</td>
+<td>PDF</td>
+<td>OnlyOffice 打开，另存为 PDF</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>MD</td>
+<td>pandoc 文件.html -o 文件.md</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>Word</td>
+<td>pandoc 文件.html -o 文件.docx</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>PDF</td>
+<td>浏览器打开，Ctrl+P 打印为 PDF</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>Word</td>
+<td>OnlyOffice 打开，另存为 DOCX</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>MD</td>
+<td>OnlyOffice 转 Word，再 pandoc 转 MD</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>最后更新：2026年3月12日</em></p>

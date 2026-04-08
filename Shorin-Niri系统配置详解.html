@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorin-Niri 系统配置详解</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-code: #334155;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* 标题样式 */
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary-light);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent-cyan);
+            margin: 2rem 0 1rem;
+        }
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-yellow);
+            margin: 1.5rem 0 0.8rem;
+        }
+        /* 目录 */
+        .toc {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        .toc-title {
+            font-size: 1.5rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .toc-list {
+            list-style: none;
+            columns: 2;
+            column-gap: 2rem;
+        }
+        .toc-list li {
+            padding: 0.3rem 0;
+            break-inside: avoid;
+        }
+        .toc-list a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: block;
+            padding: 0.2rem 0;
+        }
+        .toc-list a:hover { color: var(--primary-light); }
+        .toc-list .sub { padding-left: 1.5rem; font-size: 0.9rem; }
+        /* 卡片 */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--bg-code);
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: rgba(99, 102, 241, 0.1); }
+        /* 快捷键 */
+        kbd {
+            background: var(--bg-code);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-family: "JetBrains Mono", "Fira Code", monospace;
+            font-size: 0.85em;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        /* 代码 */
+        code {
+            background: var(--bg-code);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: "JetBrains Mono", "Fira Code", monospace;
+            font-size: 0.9em;
+            color: var(--accent-green);
+        }
+        pre {
+            background: var(--bg-code);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text);
+        }
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .tag-green { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+        .tag-yellow { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
+        .tag-red { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        .tag-cyan { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); }
+        .tag-pink { background: rgba(236, 72, 153, 0.2); color: var(--accent-pink); }
+        /* 警告框 */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        .alert-warning { background: rgba(234, 179, 8, 0.1); border-color: var(--accent-yellow); }
+        .alert-info { background: rgba(6, 182, 212, 0.1); border-color: var(--accent-cyan); }
+        .alert-danger { background: rgba(239, 68, 68, 0.1); border-color: var(--accent-red); }
+        /* 打印优化 */
+        @media print {
+            body { background: white; color: black; padding: 1cm; }
+            .toc { background: #f5f5f5; }
+            .card { background: #f9f9f9; border: 1px solid #ddd; }
+            table, th, td { border: 1px solid #ddd; }
+            th { background: #e9ecef; }
+            kbd { background: #e9ecef; border: 1px solid #ccc; }
+            code { background: #f0f0f0; color: #d63384; }
+            pre { background: #f5f5f5; }
+            a { color: #0066cc; }
+        }
+        /* 分组标题 */
+        .group-title {
+            font-size: 1.1rem;
+            color: var(--accent-pink);
+            margin: 1.5rem 0 0.5rem;
+            padding: 0.5rem;
+            background: rgba(236, 72, 153, 0.1);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Shorin-Niri 系统配置详解</h1>
+<p class="subtitle">Arch Linux × Niri Wayland 滚动式平铺桌面环境 · 完整配置手册</p>
+<p class="subtitle">最后更新：2026年4月8日</p>
+
+<!-- 目录 -->
+<div class="toc">
+    <div class="toc-title">📑 目录</div>
+    <ul class="toc-list">
+        <li><a href="#overview">1. 系统概述</a></li>
+        <li><a href="#theme">2. 主题联动机制</a></li>
+        <li class="sub"><a href="#matugen">2.1 Matugen 颜色提取器</a></li>
+        <li class="sub"><a href="#waypaper">2.2 Waypaper 壁纸管理</a></li>
+        <li class="sub"><a href="#联动组件">2.3 联动组件列表</a></li>
+        <li><a href="#terminal">3. 终端配置</a></li>
+        <li class="sub"><a href="#fish">3.1 Fish Shell</a></li>
+        <li class="sub"><a href="#kitty">3.2 Kitty 终端</a></li>
+        <li class="sub"><a href="#starship">3.3 Starship 提示符</a></li>
+        <li><a href="#waybar">4. 顶部任务栏 Waybar</a></li>
+        <li><a href="#screenshot">5. 截图与录屏</a></li>
+        <li><a href="#input">6. 输入法配置</a></li>
+        <li><a href="#clipboard">7. 剪贴板配置</a></li>
+        <li><a href="#lock">8. 锁屏与休眠</a></li>
+        <li><a href="#sunset">9. 护眼模式</a></li>
+        <li><a href="#shortcuts">10. 快捷键速查表</a></li>
+        <li class="sub"><a href="#sc-app">10.1 打开应用</a></li>
+        <li class="sub"><a href="#sc-window">10.2 窗口管理</a></li>
+        <li class="sub"><a href="#sc-workspace">10.3 工作区操作</a></li>
+        <li class="sub"><a href="#sc-screenshot">10.4 截图操作</a></li>
+        <li class="sub"><a href="#sc-system">10.5 系统功能</a></li>
+        <li class="sub"><a href="#sc-sidebar">10.6 侧边栏操作</a></li>
+        <li class="sub"><a href="#sc-translate">10.7 翻译功能</a></li>
+        <li class="sub"><a href="#sc-media">10.8 媒体控制</a></li>
+        <li class="sub"><a href="#sc-mouse">10.9 鼠标操作</a></li>
+        <li><a href="#config-paths">11. 配置文件路径汇总</a></li>
+        <li><a href="#troubleshoot">12. 常见问题与排错</a></li>
+        <li><a href="#commands">13. 常用命令速查</a></li>
+        <li><a href="#tui">14. 实用 TUI 工具</a></li>
+    </ul>
+</div>
+
+<!-- 1. 系统概述 -->
+<h2 id="overview">1. 系统概述</h2>
+<div class="card">
+    <table>
+        <tr><th>组件</th><th>选型</th></tr>
+        <tr><td>窗口管理器</td><td><strong>Niri</strong>（Wayland 滚动式平铺窗口管理器）</td></tr>
+        <tr><td>发行版</td><td><strong>Arch Linux</strong></td></tr>
+        <tr><td>内核</td><td><strong>linux-zen</strong></td></tr>
+        <tr><td>终端</td><td><strong>Kitty</strong></td></tr>
+        <tr><td>Shell</td><td><strong>Fish</strong></td></tr>
+        <tr><td>文件管理器</td><td>Nautilus (GUI) / Yazi (TUI)</td></tr>
+        <tr><td>应用启动器</td><td><strong>Fuzzel</strong></td></tr>
+        <tr><td>通知中心</td><td><strong>Mako</strong></td></tr>
+        <tr><td>输入法</td><td><strong>fcitx5</strong> + 雾凇拼音 (rime-ice)</td></tr>
+        <tr><td>任务栏</td><td><strong>Waybar</strong>（两种样式可切换）</td></tr>
+        <tr><td>锁屏</td><td><strong>hyprlock</strong></td></tr>
+        <tr><td>壁纸管理</td><td><strong>waypaper</strong> + swww</td></tr>
+        <tr><td>主题引擎</td><td><strong>matugen</strong>（Material Design 配色算法）</td></tr>
+    </table>
+</div>
+
+<!-- 2. 主题联动机制 -->
+<h2 id="theme">2. 主题联动机制</h2>
+<h3 id="matugen">2.1 Matugen 颜色提取器</h3>
+<p>系统使用 <code>matugen</code> 从当前壁纸提取颜色，通过模板系统自动生成各个组件的配色文件，实现全局主题联动。</p>
+<div class="card">
+    <p><strong>配置文件：</strong><code>~/.config/matugen/config.toml</code></p>
+    <p><strong>支持的配色方案：</strong></p>
+    <ul>
+        <li><code>scheme-tonal-spot</code>（默认）</li>
+        <li><code>scheme-content</code> / <code>scheme-expressive</code> / <code>scheme-fidelity</code></li>
+        <li><code>scheme-fruit-salad</code> / <code>scheme-monochrome</code> / <code>scheme-neutral</code></li>
+        <li><code>scheme-rainbow</code> / <code>scheme-vibrant</code></li>
+    </ul>
+    <p><strong>切换配色方案快捷键：</strong><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd></p>
+</div>
+
+<h3 id="waypaper">2.2 Waypaper 壁纸管理</h3>
+<div class="card">
+    <p><strong>配置文件：</strong><code>~/.config/waypaper/config.ini</code></p>
+    <pre><code>[Settings]
+folder = ~/图片/Wallpapers
+backend = swww
+post_command = $HOME/.config/scripts/matugen-update.sh $wallpaper & sleep 0.8 & $HOME/.config/scripts/niri_set_overview_blur_dark_bg.sh</code></pre>
+    <p><code>post_command</code> 换壁纸后自动执行：</p>
+    <ol>
+        <li>调用 <code>matugen-update.sh</code> 提取颜色并更新主题</li>
+        <li>调用 <code>niri_set_overview_blur_dark_bg.sh</code> 生成 overview 模糊背景</li>
+    </ol>
+</div>
+
+<h3 id="联动组件">2.3 联动组件列表</h3>
+<div class="card">
+    <table>
+        <tr><th>组件</th><th>模板输入</th><th>输出文件</th><th>说明</th></tr>
+        <tr><td>waybar</td><td><code>colors.css</code></td><td><code>~/.config/waybar/colors.css</code></td><td>顶部任务栏颜色</td></tr>
+        <tr><td>niri</td><td><code>niri-colors.kdl</code></td><td><code>~/.config/niri/colors.kdl</code></td><td>窗口边框颜色</td></tr>
+        <tr><td>fuzzel</td><td><code>fuzzel.ini</code></td><td><code>~/.config/fuzzel/colors.ini</code></td><td>应用启动器颜色</td></tr>
+        <tr><td>kitty</td><td><code>kitty-colors.conf</code></td><td><code>~/.config/kitty/themes/matugen.conf</code></td><td>终端颜色</td></tr>
+        <tr><td>yazi</td><td><code>yazi-theme.toml</code></td><td><code>~/.config/yazi/theme.toml</code></td><td>文件管理器颜色</td></tr>
+        <tr><td>mako</td><td><code>mako-colors.conf</code></td><td><code>~/.config/mako/colors.conf</code></td><td>通知颜色</td></tr>
+        <tr><td>GTK3/4</td><td><code>gtk-colors.css</code></td><td><code>~/.config/gtk-3.0/colors.css</code></td><td>GTK 应用颜色</td></tr>
+        <tr><td>fcitx5</td><td><code>fcitx5-theme.conf</code></td><td><code>~/.local/share/fcitx5/themes/Matugen/theme.conf</code></td><td>输入法颜色</td></tr>
+        <tr><td>starship</td><td><code>starship-colors.toml</code></td><td><code>~/.config/starship.toml</code></td><td>终端提示符颜色</td></tr>
+        <tr><td>btop</td><td><code>btop.theme</code></td><td><code>~/.config/btop/themes/matugen.theme</code></td><td>系统监控颜色</td></tr>
+        <tr><td>hyprlock</td><td><code>hyprland-colors.conf</code></td><td><code>~/.cache/matugen/hypr/colors.conf</code></td><td>锁屏颜色</td></tr>
+        <tr><td>swayosd</td><td><code>colors.css</code></td><td><code>~/.config/swayosd/colors.css</code></td><td>音量 OSD 颜色</td></tr>
+        <tr><td>cava</td><td><code>cava-colors.ini</code></td><td><code>~/.config/cava/themes/your-theme</code></td><td>音频可视化颜色</td></tr>
+    </table>
+</div>
+
+<div class="alert alert-info">
+    <strong>为什么 GTK 应用和 Yazi 颜色也跟着变？</strong><br>
+    <strong>GTK 应用（如 Nautilus）：</strong>matugen 生成 <code>~/.config/gtk-3.0/colors.css</code> 和 <code>~/.config/gtk-4.0/colors.css</code>，GTK 主题通过 <code>@import url("colors.css")</code> 引入这些颜色变量。当前 GTK 主题：<code>adw-gtk3-dark</code><br>
+    <strong>Yazi：</strong>matugen 直接生成完整的主题文件 <code>~/.config/yazi/theme.toml</code>，yazi 启动时自动加载。
+</div>
+
+<!-- 3. 终端配置 -->
+<h2 id="terminal">3. 终端配置</h2>
+
+<h3 id="fish">3.1 Fish Shell</h3>
+<div class="card">
+    <p><strong>配置文件：</strong><code>~/.config/fish/config.fish</code></p>
+    <h4>f 命令详解</h4>
+    <p>在终端输入 <kbd>f</kbd> 会自动执行 <code>fastfetch</code> 并显示一张固定图片。</p>
+    <p><strong>定义位置：</strong><code>~/.config/fish/functions/f.fish</code></p>
+    <pre><code>function f
+    set -l FIXED_IMG "/home/LinXuan/图片/IMG_20260405_205718.jpg"
+    if test -f "$FIXED_IMG"
+        fastfetch --logo "$FIXED_IMG" --logo-preserve-aspect-ratio true $argv
+    else
+        echo "图片找不到了 QAQ"
+        fastfetch $argv
+    end
+end</code></pre>
+    <p><strong>工作原理：</strong></p>
+    <ol>
+        <li>Fish 会在启动时自动加载 <code>~/.config/fish/functions/</code> 下的所有 <code>.fish</code> 文件</li>
+        <li>每个文件定义一个与文件名同名的函数</li>
+        <li><code>config.fish</code> 最后一行有 <code>f</code>，所以终端启动时自动执行</li>
+    </ol>
+    <h4>其他自定义命令</h4>
+    <table>
+        <tr><th>命令</th><th>功能</th></tr>
+        <tr><td><code>y</code></td><td>yazi 文件管理器（退出后自动跳转到浏览目录）</td></tr>
+        <tr><td><code>ls</code></td><td>eza（带图标的 ls 替代）</td></tr>
+        <tr><td><code>sl</code></td><td>蒸汽火车动画（带彩虹效果）</td></tr>
+        <tr><td><code>fa</code></td><td>快速运行 fastfetch</td></tr>
+        <tr><td><code>raw</code></td><td>随机下载动漫壁纸</td></tr>
+    </table>
+</div>
+
+<h3 id="kitty">3.2 Kitty 终端</h3>
+<div class="card">
+    <p><strong>配置目录：</strong><code>~/.config/kitty/</code></p>
+    <p><strong>主配置文件：</strong><code>~/.config/kitty/kitty.conf</code></p>
+    <pre><code>include themes/matugen.conf
+window_padding_width 5
+hide_window_decorations yes
+background_opacity 0.8
+font_family JetBrainsMono Nerd Font
+font_size 13.5
+remember_window_size no
+confirm_os_window_close 1
+shell fish
+cursor_trail 1
+cursor_shape block
+shell_integration no-cursor
+copy_on_select clipboard</code></pre>
+    <p>主题文件由 matugen 自动生成：<code>~/.config/kitty/themes/matugen.conf</code></p>
+    <p>换壁纸后会自动通过 <code>kitty +kitten themes --reload-in=all matugen</code> 重载主题。</p>
+</div>
+
+<h3 id="starship">3.3 Starship 提示符</h3>
+<div class="card">
+    <p><strong>配置文件：</strong><code>~/.config/starship.toml</code></p>
+    <p>颜色由 matugen 自动生成。在 Fish 中通过 <code>starship init fish | source</code> 加载。</p>
+</div>
+
+<!-- 4. 顶部任务栏 -->
+<h2 id="waybar">4. 顶部任务栏 Waybar</h2>
+<div class="card">
+    <p><strong>配置目录：</strong><code>~/.config/waybar/</code></p>
+    <p><strong>主要文件：</strong></p>
+    <ul>
+        <li><code>config.jsonc</code> — 布局配置</li>
+        <li><code>style.css</code> — 样式</li>
+        <li><code>colors.css</code> — 颜色（由 matugen 生成）</li>
+        <li><code>modules.jsonc</code> — 模块定义</li>
+    </ul>
+    <p><strong>启动方式：</strong>在 niri 的 <code>config.kdl</code> 中通过 <code>spawn-at-startup "waybar"</code> 自动启动。</p>
+    <h4>两种样式切换</h4>
+    <table>
+        <tr><th>快捷键</th><th>样式</th><th>配置文件</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F2</kbd></td><td>默认样式</td><td><code>~/.config/waybar/config.jsonc</code></td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F3</kbd></td><td>Windows 11 风格</td><td><code>~/.config/waybar-niri-Win11Like/config.jsonc</code></td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F4</kbd></td><td>显示/隐藏任务栏</td><td>—</td></tr>
+    </table>
+</div>
+
+<!-- 5. 截图与录屏 -->
+<h2 id="screenshot">5. 截图与录屏功能</h2>
+<div class="card">
+    <h3>截图功能</h3>
+    <p><strong>使用工具：</strong>niri 内置截图 + grim + slurp + satty</p>
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Print</kbd> 或 <kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd></td><td>选取区域截图</td></tr>
+        <tr><td><kbd>Shift</kbd>+<kbd>Print</kbd></td><td>截图整个显示器</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Print</kbd></td><td>截图当前窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>E</kbd></td><td>截图后用 satty 编辑</td></tr>
+    </table>
+    <p><strong>截图保存位置：</strong><code>~/图片/Screenshots/%Y-%m-%d %H-%M-%S.png</code></p>
+    <p><strong>截图音效：</strong>由 <code>~/.config/niri/scripts/screenshot-sound.sh</code> 守护进程提供。</p>
+
+    <h3>录屏功能</h3>
+    <p><strong>使用工具：</strong>wf-recorder</p>
+    <p><strong>配置方式：</strong>通过顶部任务栏的录屏模块操作（无独立配置文件，通过命令行参数控制）。</p>
+    <pre><code># 录制整个屏幕
+wf-recorder -f ~/视频/recording.mp4
+
+# 录制选定区域
+wf-recorder -g "$(slurp)" -f ~/视频/recording.mp4
+
+# 录制带音频
+wf-recorder -audio -f ~/视频/recording.mp4</code></pre>
+</div>
+
+<!-- 6. 输入法配置 -->
+<h2 id="input">6. 输入法配置</h2>
+<div class="card">
+    <p><strong>配置目录：</strong><code>~/.config/fcitx5/</code></p>
+    <p><strong>主要文件：</strong></p>
+    <ul>
+        <li><code>config</code> — 主配置（快捷键等）</li>
+        <li><code>profile</code> — 输入法列表</li>
+        <li><code>conf/</code> — 各模块配置</li>
+    </ul>
+    <p><strong>输入方案：</strong></p>
+    <ul>
+        <li>键盘 — 英语</li>
+        <li>Rime（雾凇拼音 rime-ice）</li>
+    </ul>
+    <h4>切换快捷键</h4>
+    <table>
+        <tr><th>操作</th><th>快捷键</th></tr>
+        <tr><td>切换输入法</td><td><kbd>Super</kbd>+<kbd>空格</kbd></td></tr>
+        <tr><td>激活/取消激活输入法</td><td>双击左 <kbd>Ctrl</kbd></td></tr>
+        <tr><td>重启输入法（解决卡死）</td><td><kbd>Mod</kbd>+<kbd>F1</kbd></td></tr>
+    </table>
+    <h4>环境变量（在 niri 的 config.kdl 中设置）</h4>
+    <pre><code>GTK_IM_MODULE "fcitx"
+QT_IM_MODULE "fcitx"
+XMODIFIERS "@im=fcitx"</code></pre>
+    <p><strong>主题：</strong>由 matugen 自动生成到 <code>~/.local/share/fcitx5/themes/Matugen/</code></p>
+    <p><strong>启动方式：</strong><code>spawn-at-startup "fcitx5" "-d"</code></p>
+    <div class="alert alert-warning">
+        <strong>常见问题：</strong>如果输入法无法使用，按 <kbd>Mod</kbd>+<kbd>F1</kbd> 重启 fcitx5。如果出现"卡 A"的情况，试试按右 <kbd>Shift</kbd> 解决。
+    </div>
+</div>
+
+<!-- 7. 剪贴板配置 -->
+<h2 id="clipboard">7. 剪贴板配置</h2>
+<div class="card">
+    <p><strong>剪贴板工具：</strong>shorinclip（TUI 界面）</p>
+    <p><strong>程序位置：</strong><code>/usr/bin/shorinclip</code></p>
+    <p><strong>缓存目录：</strong><code>~/.cache/shorinclip/</code></p>
+    <p><strong>特点：</strong></p>
+    <ul>
+        <li>TUI 界面（终端用户界面）</li>
+        <li>支持图片预览（kitty 终端）</li>
+        <li>支持搜索和过滤</li>
+        <li>颜色自动适配 matugen 主题</li>
+    </ul>
+    <h4>工作流程</h4>
+    <ol>
+        <li><code>wl-paste -watch cliphist store</code> 监听剪贴板变化</li>
+        <li>每次复制都会保存到 cliphist 历史</li>
+        <li>shorinclip 读取 cliphist 历史并显示</li>
+    </ol>
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd></td><td>打开剪贴板历史</td></tr>
+    </table>
+    <p><strong>操作方式：</strong>打开后显示历史记录列表 → 使用方向键或搜索选择项目 → 回车确认选择，内容自动粘贴。</p>
+</div>
+
+<!-- 8. 锁屏与休眠 -->
+<h2 id="lock">8. 锁屏与休眠</h2>
+<div class="card">
+    <h3>手动锁屏</h3>
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>L</kbd></td><td>锁屏</td></tr>
+    </table>
+    <p><strong>工具：</strong>hyprlock</p>
+    <p><strong>配置文件：</strong><code>~/.config/niri/hyprlock.conf</code></p>
+    <p><strong>特点：</strong></p>
+    <ul>
+        <li>使用当前壁纸作为背景（带模糊效果）</li>
+        <li>显示时间和日期</li>
+        <li>支持密码解锁</li>
+        <li>颜色由 matugen 自动生成</li>
+    </ul>
+
+    <h3>手动休眠</h3>
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd></td><td>熄屏 + 锁屏 + 休眠</td></tr>
+    </table>
+    <div class="alert alert-info">
+        <strong>注意：</strong> swayidle 自动熄屏脚本默认被注释掉了（没有自动启动）。如需启用，取消 niri 配置中的注释。
+    </div>
+</div>
+
+<!-- 9. 护眼模式 -->
+<h2 id="sunset">9. 护眼模式配置</h2>
+<div class="card">
+    <p><strong>工具：</strong>wlsunset</p>
+    <p><strong>控制脚本：</strong><code>~/.local/bin/toggle-wlsunset</code></p>
+    <p><strong>配置参数：</strong></p>
+    <pre><code>TEMP_LOW="5000"      # 夜间/护眼色温（开尔文）
+TEMP_HIGH="6500"     # 日间/标准色温
+TRANSITION="1800"    # 过渡时间（30 分钟）
+LAT="36.5"           # 纬度
+LONG="128.0"         # 经度</code></pre>
+    <p><strong>工作原理：</strong></p>
+    <ul>
+        <li>根据经纬度自动计算日出日落时间</li>
+        <li>日落后逐渐降低色温（偏黄，护眼）</li>
+        <li>日出后恢复标准色温</li>
+    </ul>
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F9</kbd></td><td>护眼模式开关</td></tr>
+    </table>
+</div>
+
+<!-- 10. 快捷键速查表 -->
+<h2 id="shortcuts">10. 快捷键速查表</h2>
+<p><strong>Mod 键 = Super 键（Windows 键）</strong></p>
+
+<h3 id="sc-app" class="group-title">📱 打开应用（Mod+Shift）</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th><th>记忆法</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd></td><td>快捷键教程</td><td>查看帮助</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td>Pot 翻译</td><td>T = Translate</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Wayscriber 屏幕批注</td><td>P = Pen</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></td><td>LibreOffice 办公软件</td><td>O = Office</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Steam 游戏</td><td>S = Steam</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></td><td>浏览器 (Edge)</td><td>B = Browser</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td><td>文件管理器 (Nautilus)</td><td>F = File</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td><td>萌音音乐</td><td>M = Music</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td>LocalSend 文件传输</td><td>L = LocalSend</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></td><td>日历</td><td>D = Date</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td>Neovim 编辑器</td><td>N = Neovim</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd></td><td>终端 (Kitty)</td><td>Period</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>,</kbd></td><td>Scrcpy 投屏</td><td>Comma</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td><td>摄像头投屏</td><td>C = Camera</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd></td><td>Watt Toolkit</td><td>A = Accelerator</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>W</kbd></td><td>微信</td><td>W = WeChat</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Q</kbd></td><td>QQ</td><td>Q = QQ</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></td><td>退出 Niri</td><td>E = Exit</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-window" class="group-title">🪟 窗口管理</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Q</kbd></td><td>关闭聚焦窗口</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>F4</kbd></td><td>关闭窗口（经典组合）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F</kbd></td><td>最大化</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></td><td>全屏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>V</kbd></td><td>切换浮动窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>N</kbd></td><td>切换浮动窗口聚焦</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>C</kbd></td><td>窗口居中</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>X</kbd></td><td>切换标签页模式</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>,</kbd></td><td>合并窗口到当前列</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>.</kbd></td><td>踢出窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>R</kbd></td><td>按预设切换宽度</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>-</kbd></td><td>窗口宽度 -5%</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>=</kbd></td><td>窗口宽度 +5%</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></td><td>切换窗口高度预设</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>-</kbd></td><td>窗口高度 -5%</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>=</kbd></td><td>窗口高度 +5%</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>重置窗口高度</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>窗口占满空闲空间</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>居中所有可见列</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>H</kbd></td><td>窗口左移</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>J</kbd></td><td>窗口下移</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>K</kbd></td><td>窗口上移</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>L</kbd></td><td>窗口右移</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>←</kbd></td><td>聚焦左边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>↓</kbd></td><td>聚焦下边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>↑</kbd></td><td>聚焦上边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>→</kbd></td><td>聚焦右边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Home</kbd></td><td>聚焦第一个窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>End</kbd></td><td>聚焦最后一个窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>滚轮下</kbd></td><td>滚轮切换聚焦（右）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>滚轮上</kbd></td><td>滚轮切换聚焦（左）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Tab</kbd></td><td>缩略图切换窗口（下一个）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>缩略图切换窗口（上一个）</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>Tab</kbd></td><td>快速跳转窗口（Fuzzel）</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-workspace" class="group-title">🗂️ 工作区操作</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>U</kbd></td><td>切换到下个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>I</kbd></td><td>切换到上个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>PageDown</kbd></td><td>切换到下个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>PageUp</kbd></td><td>切换到上个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>滚轮下</kbd></td><td>切换工作区（下）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>滚轮上</kbd></td><td>切换工作区（上）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>U</kbd></td><td>窗口移到下个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>窗口移到上个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>PageDown</kbd></td><td>窗口移到下个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>PageUp</kbd></td><td>窗口移到上个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>滚轮下</kbd></td><td>窗口移到下个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>滚轮上</kbd></td><td>窗口移到上个工作区</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>1</kbd> ~ <kbd>9</kbd></td><td>切换到工作区 1~9</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Ctrl</kbd>+<kbd>1</kbd> ~ <kbd>9</kbd></td><td>窗口移到工作区 1~9</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>↑/↓/←/→</kbd></td><td>聚焦上/下/左/右显示器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>←</kbd></td><td>窗口移到左显示器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>→</kbd></td><td>窗口移到右显示器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>↑/↓</kbd></td><td>窗口移到上/下显示器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>←/→/↑/↓</kbd></td><td>工作区移到左/右/上/下显示器</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-screenshot" class="group-title">📸 截图操作</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Print</kbd> 或 <kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd></td><td>选取区域截图</td></tr>
+        <tr><td><kbd>Shift</kbd>+<kbd>Print</kbd></td><td>截图显示器</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Print</kbd></td><td>截图窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>截取聚焦窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd></td><td>截取显示器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>E</kbd></td><td>截图后用 satty 编辑</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-system" class="group-title">⚙️ 系统功能</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Z</kbd></td><td>程序菜单（Fuzzel）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>O</kbd></td><td>切换总览界面（Overview）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>W</kbd></td><td>切换壁纸（Waypaper）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F10</kbd></td><td>随机切换壁纸</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd></td><td>随机下载动漫壁纸</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd></td><td>切换颜色策略</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd></td><td>剪贴板历史</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>L</kbd></td><td>锁屏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd></td><td>熄屏 + 锁屏 + 休眠</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F1</kbd></td><td>开关输入法（重启 fcitx5）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F2</kbd></td><td>切换 Waybar 样式 1（默认）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F3</kbd></td><td>切换 Waybar 样式 2（Win11）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F4</kbd></td><td>显示/隐藏任务栏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F9</kbd></td><td>护眼模式开关</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F5</kbd></td><td>快速存档（quicksave）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F8</kbd></td><td>快速读档（quickload）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F11</kbd></td><td>打开/关闭任务栏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>F12</kbd></td><td>快速终端</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>G</kbd></td><td>颜色选择器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>/</kbd></td><td>临时终端（浮动）</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Esc</kbd></td><td>禁用/启用快捷键</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Q</kbd></td><td>退出菜单（wlogout）</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Del</kbd></td><td>电源菜单（wlogout）</td></tr>
+        <tr><td><kbd>Insert</kbd></td><td>打开 Yazi 文件管理器</td></tr>
+        <tr><td><kbd>XF86Calculator</kbd></td><td>计算器</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>P</kbd></td><td>屏幕批注开关</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-sidebar" class="group-title">📌 侧边栏操作</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>M</kbd></td><td>收起窗口到侧边栏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd></td><td>侧边栏窗口</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>Z</kbd></td><td>展开/收起侧边栏</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd></td><td>侧边栏翻转</td></tr>
+        <tr><td><kbd>Mod</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd></td><td>重置侧边栏</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-translate" class="group-title">🔤 Pot 翻译功能</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td>划词翻译</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd></td><td>输入翻译</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>U</kbd></td><td>截图 OCR</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></td><td>截图翻译</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-media" class="group-title">🎵 媒体控制</h3>
+<div class="card">
+    <table>
+        <tr><th>快捷键</th><th>功能</th></tr>
+        <tr><td><kbd>XF86AudioRaiseVolume</kbd></td><td>音量 +</td></tr>
+        <tr><td><kbd>XF86AudioLowerVolume</kbd></td><td>音量 -</td></tr>
+        <tr><td><kbd>XF86AudioMute</kbd></td><td>静音</td></tr>
+        <tr><td><kbd>XF86AudioMicMute</kbd></td><td>麦克风静音</td></tr>
+        <tr><td><kbd>XF86MonBrightnessUp</kbd></td><td>亮度 +</td></tr>
+        <tr><td><kbd>XF86MonBrightnessDown</kbd></td><td>亮度 -</td></tr>
+    </table>
+</div>
+
+<h3 id="sc-mouse" class="group-title">🖱️ 鼠标操作</h3>
+<div class="card">
+    <table>
+        <tr><th>操作</th><th>功能</th></tr>
+        <tr><td><kbd>Mod</kbd> + 鼠标中键</td><td>关闭窗口</td></tr>
+        <tr><td><kbd>Mod</kbd> + 鼠标前进键</td><td>聚焦上边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd> + 鼠标后退键</td><td>聚焦下边窗口</td></tr>
+        <tr><td><kbd>Mod</kbd> + 左键拖拽</td><td>移动窗口</td></tr>
+        <tr><td><kbd>Mod</kbd> + 右键拖拽</td><td>调整窗口大小</td></tr>
+        <tr><td><kbd>Mod</kbd> + 滚轮</td><td>左右切换聚焦</td></tr>
+    </table>
+</div>
+
+<!-- 11. 配置文件路径汇总 -->
+<h2 id="config-paths">11. 配置文件路径汇总</h2>
+<div class="card">
+    <table>
+        <tr><th>文件路径</th><th>说明</th></tr>
+        <tr><td><code>~/.config/niri/config.kdl</code></td><td>Niri 主配置</td></tr>
+        <tr><td><code>~/.config/niri/binds.kdl</code></td><td>快捷键配置</td></tr>
+        <tr><td><code>~/.config/niri/rule.kdl</code></td><td>窗口规则配置</td></tr>
+        <tr><td><code>~/.config/niri/output.kdl</code></td><td>显示器配置</td></tr>
+        <tr><td><code>~/.config/niri/animation.kdl</code></td><td>动画配置</td></tr>
+        <tr><td><code>~/.config/niri/layout.kdl</code></td><td>布局配置</td></tr>
+        <tr><td><code>~/.config/niri/colors.kdl</code></td><td>窗口边框颜色（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/niri/hyprlock.conf</code></td><td>锁屏配置</td></tr>
+        <tr><td><code>~/.config/matugen/config.toml</code></td><td>主题颜色生成配置</td></tr>
+        <tr><td><code>~/.config/waypaper/config.ini</code></td><td>壁纸管理配置</td></tr>
+        <tr><td><code>~/.config/waybar/config.jsonc</code></td><td>任务栏布局</td></tr>
+        <tr><td><code>~/.config/waybar/style.css</code></td><td>任务栏样式</td></tr>
+        <tr><td><code>~/.config/waybar/colors.css</code></td><td>任务栏颜色（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/waybar-niri-Win11Like/</code></td><td>Win11 风格任务栏</td></tr>
+        <tr><td><code>~/.config/fish/config.fish</code></td><td>Fish shell 配置</td></tr>
+        <tr><td><code>~/.config/fish/functions/f.fish</code></td><td>f 命令定义</td></tr>
+        <tr><td><code>~/.config/kitty/kitty.conf</code></td><td>Kitty 终端配置</td></tr>
+        <tr><td><code>~/.config/kitty/themes/matugen.conf</code></td><td>Kitty 主题（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/yazi/yazi.toml</code></td><td>Yazi 文件管理器配置</td></tr>
+        <tr><td><code>~/.config/yazi/theme.toml</code></td><td>Yazi 主题（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/fcitx5/config</code></td><td>输入法主配置</td></tr>
+        <tr><td><code>~/.local/share/fcitx5/themes/Matugen/</code></td><td>输入法主题（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/mako/config</code></td><td>通知配置</td></tr>
+        <tr><td><code>~/.config/fuzzel/config.ini</code></td><td>应用启动器配置</td></tr>
+        <tr><td><code>~/.config/fuzzel/colors.ini</code></td><td>启动器颜色（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/gtk-3.0/settings.ini</code></td><td>GTK3 主题设置</td></tr>
+        <tr><td><code>~/.config/gtk-4.0/settings.ini</code></td><td>GTK4 主题设置</td></tr>
+        <tr><td><code>~/.config/starship.toml</code></td><td>终端提示符配置（matugen 生成）</td></tr>
+        <tr><td><code>~/.config/btop/themes/matugen.theme</code></td><td>btop 主题（matugen 生成）</td></tr>
+        <tr><td><code>~/.local/bin/toggle-wlsunset</code></td><td>护眼模式切换脚本</td></tr>
+        <tr><td><code>~/.local/bin/pull-upstream</code></td><td>上游仓库同步脚本</td></tr>
+    </table>
+</div>
+
+<!-- 12. 常见问题与排错 -->
+<h2 id="troubleshoot">12. 常见问题与排错</h2>
+<div class="card">
+    <h3>双任务栏问题</h3>
+    <div class="alert alert-warning">
+        <strong>症状：</strong>屏幕出现两个任务栏<br>
+        <strong>解决：</strong><code>systemctl --user disable --now dms</code>
+    </div>
+
+    <h3>网络问题</h3>
+    <div class="alert alert-warning">
+        <strong>症状：</strong>WiFi 连接异常<br>
+        <strong>解决（更换 WiFi 后端为 wpa_supplicant）：</strong>
+        <pre><code>sudo rm /etc/NetworkManager/conf.d/iwd.conf
+sudo systemctl restart NetworkManager</code></pre>
+    </div>
+
+    <h3>输入法问题</h3>
+    <div class="alert alert-warning">
+        <strong>症状：</strong>输入法无法使用<br>
+        <strong>解决 1：</strong>按 <kbd>Mod</kbd>+<kbd>F1</kbd> 重启 fcitx5<br>
+        <strong>解决 2：</strong>出现"卡 A"时按右 <kbd>Shift</kbd> 解决
+    </div>
+
+    <h3>回档方法</h3>
+    <div class="alert alert-danger">
+        <strong>如果不想要了或者安装失败了：</strong><br>
+        <code>/usr/local/bin</code> 下有两个脚本可以回档到运行脚本之前的状态：
+        <ul>
+            <li><strong>回到安装桌面前：</strong><code>shorin-de-undochange</code></li>
+            <li><strong>回到运行脚本前：</strong><code>shorin-undochange</code></li>
+        </ul>
+    </div>
+
+    <h3>Overview 壁纸不显示</h3>
+    <div class="alert alert-info">
+        <strong>步骤：</strong>
+        <ol>
+            <li><kbd>Mod</kbd>+<kbd>Z</kbd> 打开程序菜单，打开 DMS 设置</li>
+            <li>进入"个性化 → 壁纸"，设置一张壁纸</li>
+            <li>开启"带模糊效果的壁纸复本"</li>
+            <li><kbd>Mod</kbd>+<kbd>O</kbd> 打开 overview 即可看到模糊壁纸效果</li>
+        </ol>
+    </div>
+
+    <h3>GTK 主题设置</h3>
+    <div class="alert alert-info">
+        <strong>步骤：</strong>
+        <ol>
+            <li>选择"主题与配色"，点击 auto，选择喜欢的配色方案</li>
+            <li>在页面底端点击"应用 GTK 配色"</li>
+            <li>打开 GTK Setting 软件，选择使用 <code>adw-gtk3-dark</code></li>
+        </ol>
+    </div>
+
+    <h3>自动熄屏锁屏</h3>
+    <div class="alert alert-info">
+        swayidle 脚本默认被注释掉了。如需启用自动熄屏锁屏睡眠：
+        <ol>
+            <li>编辑 <code>~/.config/niri/config.kdl</code></li>
+            <li>找到 <code>spawn-at-startup "~/.config/niri/scripts/swayidle.sh"</code></li>
+            <li>取消注释，重启 niri</li>
+        </ol>
+    </div>
+</div>
+
+<!-- 13. 常用命令速查 -->
+<h2 id="commands">13. 常用命令速查</h2>
+<div class="card">
+    <table>
+        <tr><th>命令</th><th>功能</th></tr>
+        <tr><td><code>pac</code></td><td>安装软件（Pacman/AUR 模糊搜索 TUI）</td></tr>
+        <tr><td><code>pacr</code></td><td>卸载软件（支持 Pacman/AUR/Flatpak）</td></tr>
+        <tr><td><code>pacd</code></td><td>软件包降级 TUI</td></tr>
+        <tr><td><code>pacrrr</code></td><td>卸载前识别残留配置文件</td></tr>
+        <tr><td><code>pak</code></td><td>Flatpak 软件包模糊搜索安装</td></tr>
+        <tr><td><code>sysup</code></td><td>更新系统（新闻 + 镜像 + 全系统升级）</td></tr>
+        <tr><td><code>mirror-update</code></td><td>更新镜像源（智能区域检测 + 三重保险）</td></tr>
+        <tr><td><code>clean</code></td><td>系统清理（孤儿包/缓存/日志/回收站）</td></tr>
+        <tr><td><code>checkallupdates</code></td><td>查看所有待更新软件包（fzf 界面）</td></tr>
+        <tr><td><code>quicksave</code></td><td>快速存档（Btrfs 快照）</td></tr>
+        <tr><td><code>quickload</code></td><td>快速读档（Btrfs 快照恢复）</td></tr>
+        <tr><td><code>pull-upstream</code></td><td>一键拉取上游仓库最新代码</td></tr>
+        <tr><td><code>check-battery</code></td><td>电池健康报告</td></tr>
+        <tr><td><code>media-info</code></td><td>视频/音频文件详细信息</td></tr>
+        <tr><td><code>video2gif</code></td><td>视频批量转 GIF</td></tr>
+        <tr><td><code>vir</code></td><td>QEMU/KVM 虚拟机管理 TUI</td></tr>
+        <tr><td><code>matugen-update</code></td><td>从壁纸提取颜色生成主题色</td></tr>
+        <tr><td><code>toggle-wlsunset</code></td><td>护眼模式开关</td></tr>
+        <tr><td><code>lsi</code></td><td>终端图片预览</td></tr>
+        <tr><td><code>preview</code></td><td>终端预览文件（图片/视频/文本等）</td></tr>
+        <tr><td><code>shorin link</code></td><td>生成 Shorin Contrib 脚本的本地软链接</td></tr>
+    </table>
+</div>
+
+<!-- 14. 实用 TUI 工具 -->
+<h2 id="tui">14. 实用 TUI 工具</h2>
+<div class="card">
+    <table>
+        <tr><th>命令</th><th>功能</th></tr>
+        <tr><td><code>gdu</code></td><td>磁盘空间管理</td></tr>
+        <tr><td><code>nmtui</code></td><td>网络配置工具</td></tr>
+        <tr><td><code>impala</code></td><td>WiFi 连接工具（tab 键切换，方向键选择，回车确认，需要 iwd 后端）</td></tr>
+        <tr><td><code>btop</code></td><td>任务管理器</td></tr>
+        <tr><td><code>yazi</code></td><td>文件管理器（TUI）</td></tr>
+        <tr><td><code>fastfetch</code></td><td>系统信息显示工具</td></tr>
+    </table>
+</div>
+
+<div class="alert alert-info" style="margin-top: 3rem; text-align: center; padding: 2rem;">
+    <p style="font-size: 1.2rem; color: var(--primary-light);">
+        📄 文档生成时间：2026-04-08
+    </p>
+    <p style="color: var(--text-muted);">
+        系统：Shorin-Niri (Arch Linux) · 窗口管理器：Niri · 终端：Kitty + Fish
+    </p>
+</div>
+
+</body>
+</html>
